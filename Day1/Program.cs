@@ -39,20 +39,10 @@ while (true)
 
 static void Part1(string filepath)
 {
-    StreamReader sr = new StreamReader(filepath);
+    List<List<int>> testdata = SplitLeftRight(filepath);
 
-    List<int> leftList = new List<int>();
-    List<int> rightList = new List<int>();
-
-    while (!sr.EndOfStream)
-    {
-        string line = sr.ReadLine();
-        string[] parts = line.Split("   ");
-        leftList.Add(int.Parse(parts[0].Trim()));
-        rightList.Add(int.Parse(parts[1].Trim()));
-    }
-
-    sr.Close();
+    List<int> leftList = testdata[1];
+    List<int> rightList = testdata[2];
 
     leftList.Sort();
     rightList.Sort();
@@ -68,20 +58,10 @@ static void Part1(string filepath)
 
 static void Part2(string filepath)
 {
-    StreamReader sr = new StreamReader(filepath);
+    List<List<int>> testdata = SplitLeftRight(filepath);
 
-    List<int> leftList = new List<int>();
-    List<int> rightList = new List<int>();
-
-    while (!sr.EndOfStream)
-    {
-        string line = sr.ReadLine();
-        string[] parts = line.Split("   ");
-        leftList.Add(int.Parse(parts[0].Trim()));
-        rightList.Add(int.Parse(parts[1].Trim()));
-    }
-
-    sr.Close();
+    List<int> leftList = testdata[1];
+    List<int> rightList = testdata[2];
 
     List<int> resultList = new List<int>();
 
@@ -96,6 +76,36 @@ static void Part2(string filepath)
     Console.WriteLine(sum);
 }
 
+static List<string> GetTestdata(string filepath)
+{
+    using (StreamReader sr = new StreamReader(filepath))
+    {
+        List<string> testdata = new List<string>();
+        while (!sr.EndOfStream)
+        {
+            testdata.Add(sr.ReadLine());
+        }
+
+        return testdata;
+    }
+} 
+
+static List<List<int>> SplitLeftRight(string filepath)
+{
+    List<string> testdata = GetTestdata(filepath);
+
+    List<int> leftList = new List<int>();
+    List<int> rightList = new List<int>();
+
+    foreach (var item in testdata)
+    {
+        string[] parts = item.Split("   ");
+        leftList.Add(int.Parse(parts[0].Trim()));
+        rightList.Add(int.Parse(parts[1].Trim()));
+    }
+
+    return new List<List<int>> { leftList, rightList };
+}
 
 
 
