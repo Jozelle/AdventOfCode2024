@@ -5,20 +5,6 @@ string filepath = Path.Combine(folderpath, filename);
 
 //string filepath = "test1.txt";
 
-StreamReader sr = new StreamReader(filepath);
-
-List<int> leftList = new List<int>();
-List<int> rightList = new List<int>();
-
-while (!sr.EndOfStream)
-{
-    string line = sr.ReadLine();
-    string[] parts = line.Split("   ");
-    leftList.Add(int.Parse(parts[0].Trim()));
-    rightList.Add(int.Parse(parts[1].Trim()));
-}
-
-
 while (true)
 {
     Console.Clear();
@@ -32,10 +18,10 @@ while (true)
         switch (result)
         {
             case 1:
-                Part1(leftList, rightList);
+                Part1(filepath);
                 break;
             case 2:
-                Part2(leftList, rightList);
+                Part2(filepath);
                 break;
             default:
                 Console.WriteLine("Invalid input");
@@ -51,8 +37,23 @@ while (true)
     Console.Read();
 }
 
-static void Part1(List<int> leftList, List<int> rightList)
+static void Part1(string filepath)
 {
+    StreamReader sr = new StreamReader(filepath);
+
+    List<int> leftList = new List<int>();
+    List<int> rightList = new List<int>();
+
+    while (!sr.EndOfStream)
+    {
+        string line = sr.ReadLine();
+        string[] parts = line.Split("   ");
+        leftList.Add(int.Parse(parts[0].Trim()));
+        rightList.Add(int.Parse(parts[1].Trim()));
+    }
+
+    sr.Close();
+
     leftList.Sort();
     rightList.Sort();
     List<int> resultList = new List<int>();
@@ -65,8 +66,23 @@ static void Part1(List<int> leftList, List<int> rightList)
     Console.WriteLine(sum);
 }
 
-static void Part2(List<int> leftList, List<int> rightList)
+static void Part2(string filepath)
 {
+    StreamReader sr = new StreamReader(filepath);
+
+    List<int> leftList = new List<int>();
+    List<int> rightList = new List<int>();
+
+    while (!sr.EndOfStream)
+    {
+        string line = sr.ReadLine();
+        string[] parts = line.Split("   ");
+        leftList.Add(int.Parse(parts[0].Trim()));
+        rightList.Add(int.Parse(parts[1].Trim()));
+    }
+
+    sr.Close();
+
     List<int> resultList = new List<int>();
 
     foreach (var item in leftList)
