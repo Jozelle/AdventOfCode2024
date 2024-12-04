@@ -45,30 +45,15 @@ static void Part1(string filepath)
     foreach (var item in testdata)
     {
         int[] split = item.Split(' ').Select(int.Parse).ToArray();
-        bool increasing = true;
-        bool safe = true;
 
-        for (int i = 0; i < split.Length; i++)
+        if (IsLevelSafe(split).Item1)
         {
-            if (i == 0)
-            {
-                int comparison = split[i].CompareTo(split[i + 1]);
-                if (comparison > 0)
-                {
-                    increasing = false;
-                }
-            }
-
-            int difference = split[i] - split[i + 1];
-
-            if (difference == 0 || difference > 3)
-            {
-                safe = false;
-            }
-
+            safeCount++;
 
         }
     }
+
+    Console.WriteLine(safeCount);
 }
 
 static void Part2()
@@ -88,4 +73,35 @@ static List<string> GetTestdata(string filepath)
 
         return testdata;
     }
+}
+
+static (bool, int) IsLevelSafe(int[] values)
+{
+    var (increasing, safeDifference) = CheckDifference(values[0], values[1]);
+
+    if (!safeDifference)
+    {
+        return (false, 0);
+    }
+
+    for (int i = 1; i < values.Length - 1; i++)
+    {
+        var (increase, safeDifference) = CheckDifference(values[i], values[i + 1]);
+        if (!safeDifference ||increase != increasing)
+        {
+            return (false, i);
+        }
+    }
+
+    return (true, -1);
+}
+
+static (bool, bool) CheckDifference (int x, int y)
+{
+    int difference = x - y;
+
+    bool isIncreasing = Math.Sign(difference) == 1;     // Check if the difference is positive or negative
+    int amount = Math.Abs(difference);                  // Get the absolute value of the difference
+
+    return (isIncreasing, amount is 1 or 2 or 3);       // Return a tuple with the results, second value is a boolean that returns true if the amount is 1, 2 or 3
 }
